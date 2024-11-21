@@ -1,0 +1,41 @@
+@model StocksTrade
+@{
+    ViewBag.Title = "Trading";
+}
+
+<div class="trading-panel-flex box flex">
+    <div id="stock-price-panel">
+        <div class="stock">
+            <h1 class="stock-title">@Model.StockName (@Model.StockSymbol)</h1>
+            <h2 class="stock-price"><small class="text-grey">$</small> <span class="price">@Model.Price.ToString("N")</span></h2>
+        </div>
+    </div>
+    <div id="new-order-panel">
+        <form method="post">
+            <h3>New Order</h3>
+            <input type="hidden" asp-for="Price"/>
+            <input type="hidden" asp-for="StockName"/>
+            <input type="hidden" asp-for="StockSymbol"/>
+            <div class="flex1">
+                <label asp-for="Quantity" class="form-label">Quantity:</label>
+                <input type="number" name="Quantity" asp-for="Quantity" min="1" max="100000" placeholder="Quantity" required="required" class="form-input mb" autofocus="autofocus">
+            </div>
+            <div>
+                <span class="text-red" asp-validation-for="Quantity"></span>
+            </div>
+            <button class="button button-green-back" value="buy" formaction="~/Trade/BuyOrder" type="submit"><i class="fa-solid fa-arrow-up"></i>Buy</button>
+            <button class="button button-red-back" value="sell" type="submit" formaction="~/Trade/SellOrder">
+                <i class="fa-solid fa-arrow-down"></i>Sell
+            </button>
+        </form>
+    </div> 
+</div>
+<input type="hidden" name="StockSymbol" id="StockSymbol" value="@Model.StockSymbol" />
+<input type="hidden" id="FinnhubToken" value="@ViewBag.FinnhubToken" />
+@section scripts
+{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer" asp-fallback-test="window.jQuery.validator" asp-fallback-src="~/Scripts/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.21.0/jquery.validate.min.js" integrity="sha512-KFHXdr2oObHKI9w4Hv1XPKc898mE4kgYx58oqsc/JqqdLMDI4YjOLzom+EMlW8HFUd0QfjfAvxSL6sEq/a42fQ==" crossorigin="anonymous" referrerpolicy="no-referrer" asp-fallback-test="window.jQuery" asp-fallback-src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/4.0.0/jquery.validate.unobtrusive.min.js" integrity="sha512-xq+Vm8jC94ynOikewaQXMEkJIOBp7iArs3IhFWSWdRT3Pq8wFz46p+ZDFAR7kHnSFf+zUv52B3prRYnbDRdgog==" crossorigin="anonymous" referrerpolicy="no-referrer" asp-fallback-test="window.jQuery.validator.unobtrusive" asp-fallback-src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/FinnhubScript.js"></script>
+}

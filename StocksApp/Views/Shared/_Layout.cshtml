@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title | Stocks</title>
+    <link href="~/StyleSheet (2).css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="container">
+        <div class="page-content">
+            <div id="top-bar-div">
+                <!-- Page title and left-side elements -->
+                <div class="flex">
+                    <h1 class="app-title flex-4">
+                        <i class="fa-solid fa-money-bill-trend-up"></i>
+                        Stocks
+                    </h1>
+                    <div id="search-box-div">
+                        <input type="text" class="search-text flex-1" placeholder="Search stocks">
+                        <i class="fa fa-cog flex-1 pr"></i>
+                        <button class="button button-blue-back login-button flex-1">Login</button>
+                    </div>
+                </div>
+                <!-- Navigation links below header -->
+                <div class="navbar">
+                    <ul class="flex">
+                        <li><a href="~/Trade/Index" class="link-hover">Trade</a></li>
+                        <li><a href="~/Trade/Orders" class="link-hover">Order</a></li>
+                    </ul>
+                    <div class="flex">
+                        <div>
+                            <text class="text-grey ">Stocks <i class="fa-solid fa-caret-right"></i> @ViewBag.title</text>
+                        </div>
+                        @if (ViewBag.Title.Equals("Orders"))
+                        {
+                            <div class="text-right flex-1">
+                                <a class="text-right"asp-action="OrdersPDF" asp-controller="Trade">Download as PDF</a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+@await RenderSectionAsync("scripts", required: false)
+</body>
+</html>

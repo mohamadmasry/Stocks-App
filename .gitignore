@@ -1,0 +1,25 @@
+# Ignore bin and obj directories for all projects 
+**/bin/ 
+**/obj/ 
+
+# Rider IDE metadata 
+.idea/
+out/
+
+#macOS system files
+.DS_Store
+
+#log files
+*.log
+**/logs/
+
+#temporary
+*.tmp
+*.cache
+*.lock
+
+# Build artifacts
+*.dll
+*.exe
+*.suo
+

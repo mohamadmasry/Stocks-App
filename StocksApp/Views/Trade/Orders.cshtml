@@ -1,0 +1,38 @@
+@model Orders
+@{
+    ViewBag.Title = "Orders";
+}
+<div class="container">
+    <div class="orders-list flex">
+        <!-- Buy Orders Panel -->
+        <div class="box" id="buy-orders-list">
+            <h4 class="text-left text-grey">Buy Orders</h4>
+            <br> 
+            <!-- Individual Buy Order -->
+            @foreach (BuyOrderResponse buyOrder in Model.BuyOrderResponses)
+            {
+                <div class="order border-bottom pb">
+                    <h2>@buyOrder.StockName (@buyOrder.StockSymbol)</h2>
+                    <div class="margin-auto">@buyOrder.Quantity <text class="text-grey">shares at</text> $@buyOrder.Price</div>
+                    <div class="mt pb"><text class="text-grey">Trade Amount:</text> $@buyOrder.TradeAmount</div>
+                    <div class="text-grey">@buyOrder.DateAndTimeOfOrder.ToString("dd MMMM yyyy hh:mm:ss tt")</div>
+                </div>
+            }
+        </div>
+        <!-- Sell Orders Panel -->
+        <div class="box" id="sell-orders-list">
+            <h4 class="text-left text-grey">Sell Orders</h4>
+            <br>
+            <!-- Sell Orders -->
+            @foreach (SellOrderResponse sellOrder in Model.SellOrderResponses)
+            {
+                <div class="order border-bottom pb">
+                    <h2>@sellOrder.StockName (@sellOrder.StockSymbol)</h2>
+                    <div class="margin-auto ">@sellOrder.Quantity <text class="text-grey">shares at</text> $@sellOrder.Price</div>
+                    <div class="mt pb"><text class="text-grey">Trade Amount:</text> $@sellOrder.TradeAmount</div>
+                    <div class="text-grey">@sellOrder.DateAndTimeOfOrder.ToString("dd MMMM yyyy hh:mm:ss tt")</div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
