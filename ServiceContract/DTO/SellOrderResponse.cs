@@ -17,10 +17,10 @@ public class SellOrderResponse
     [Range(typeof(DateTime),"01/01/2000","31/12/2025" ,ErrorMessage = "Minimum order year is 2000")]
     public DateTime DateAndTimeOfOrder { get; set; }
     
-    [Range(0,100000)] 
+    [Range(1,100000)] 
     public int Quantity{get;set;}
     
-    [Range(0,10000)]
+    [Range(1,10000)]
     public double Price{get;set;}
     
     public double TradeAmount {get;set;}

@@ -10,6 +10,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StocksAppTest", "StocksAppTest\StocksAppTest.csproj", "{A6FD2A02-A6F9-4D91-B943-1F51A64891E5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepositoryContracts", "RepositoryContracts\RepositoryContracts.csproj", "{B07E7155-CDD0-47F5-9B0B-01B06F7700E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{64A65A38-1A27-42B6-8049-8E319A9C82E6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +40,13 @@ Global
 		{A6FD2A02-A6F9-4D91-B943-1F51A64891E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6FD2A02-A6F9-4D91-B943-1F51A64891E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6FD2A02-A6F9-4D91-B943-1F51A64891E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B07E7155-CDD0-47F5-9B0B-01B06F7700E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B07E7155-CDD0-47F5-9B0B-01B06F7700E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B07E7155-CDD0-47F5-9B0B-01B06F7700E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B07E7155-CDD0-47F5-9B0B-01B06F7700E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64A65A38-1A27-42B6-8049-8E319A9C82E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64A65A38-1A27-42B6-8049-8E319A9C82E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64A65A38-1A27-42B6-8049-8E319A9C82E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64A65A38-1A27-42B6-8049-8E319A9C82E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -1,52 +1,72 @@
-<!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title | Stocks</title>
     <link href="~/StyleSheet (2).css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    <div class="container">
-        <div class="page-content">
-            <div id="top-bar-div">
-                <!-- Page title and left-side elements -->
-                <div class="flex">
-                    <h1 class="app-title flex-4">
+<div class="container">
+    <div class="page-content">
+        <div class="margin-bottom">
+            <div class="flex" id="top-bar-div">
+                <div class="flex-1" id="app-title-div">
+                    <h1 class="app-title">
                         <i class="fa-solid fa-money-bill-trend-up"></i>
                         Stocks
                     </h1>
-                    <div id="search-box-div">
-                        <input type="text" class="search-text flex-1" placeholder="Search stocks">
-                        <i class="fa fa-cog flex-1 pr"></i>
-                        <button class="button button-blue-back login-button flex-1">Login</button>
-                    </div>
                 </div>
-                <!-- Navigation links below header -->
-                <div class="navbar">
-                    <ul class="flex">
-                        <li><a href="~/Trade/Index" class="link-hover">Trade</a></li>
-                        <li><a href="~/Trade/Orders" class="link-hover">Order</a></li>
-                    </ul>
-                    <div class="flex">
-                        <div>
-                            <text class="text-grey ">Stocks <i class="fa-solid fa-caret-right"></i> @ViewBag.title</text>
-                        </div>
-                        @if (ViewBag.Title.Equals("Orders"))
-                        {
-                            <div class="text-right flex-1">
-                                <a class="text-right"asp-action="OrdersPDF" asp-controller="Trade">Download as PDF</a>
-                            </div>
-                        }
-                    </div>
+
+                <div class="flex-1 pr" id="search-box-div">
+
+                    <input type="search" class="search-text" placeholder="Search Stocks" name="SearchText" />
+                    <i class="fa-solid fa-gear"></i>
+
+                    <button class="button button-blue-back ml login-button">Login</button>
                 </div>
             </div>
-            <div class="container">
-                @RenderBody()
-            </div>
+
         </div>
+
+
+        <div class="navbar mb">
+            <ul>
+                @if (ViewBag.CurrentUrl == "~/Explore")
+                {
+                    <li><a asp-controller="Stocks" asp-action="Explore" class="nav-active">Explore</a></li>
+                }
+                else
+                {
+                    <li><a asp-controller="Stocks" asp-action="Explore">Explore</a></li>
+                }
+
+                @if (ViewBag.CurrentUrl == "~/Trade/Index")
+                {
+                    <li><a href="#" class="nav-active">Trade</a></li>
+                }
+                else
+                {
+                    <li><a href="#">Trade</a></li>
+                }
+
+                @if (ViewBag.CurrentUrl == "~/Trade/Orders")
+                {
+                    <li><a asp-controller="Trade" asp-action="Orders" class="nav-active">Orders</a></li>
+                }
+                else
+                {
+                    <li><a asp-controller="Trade" asp-action="Orders">Orders</a></li>
+                }
+            </ul>
+        </div>
+
+        @RenderBody()
     </div>
+
+</div>
+
 @await RenderSectionAsync("scripts", required: false)
 </body>
 </html>

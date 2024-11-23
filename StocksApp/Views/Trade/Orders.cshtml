@@ -2,36 +2,56 @@
 @{
     ViewBag.Title = "Orders";
 }
-<div class="container">
-    <div class="orders-list flex">
-        <!-- Buy Orders Panel -->
-        <div class="box" id="buy-orders-list">
+<div class="flex">
+    <div class="flex-1">
+        <div class="text-grey ml">
+            <span>Stocks</span>
+            <i class="fa-solid fa-caret-right"></i>
+            <span>Orders</span>
+        </div>
+    </div>
+    <div class="flex-1 text-right">
+        <a asp-controller="Trade" asp-action="OrdersPDF" class="mr">Download as PDF</a>
+    </div>
+</div>
+<div class="flex orders-list">
+    <!-- Buy Orders Panel -->
+    <div id="buy-orders-list">
+        <div class="box">
             <h4 class="text-left text-grey">Buy Orders</h4>
-            <br> 
-            <!-- Individual Buy Order -->
+            <!-- Buy Orders -->
             @foreach (BuyOrderResponse buyOrder in Model.BuyOrderResponses)
             {
-                <div class="order border-bottom pb">
+                <div class="border-bottom p">
                     <h2>@buyOrder.StockName (@buyOrder.StockSymbol)</h2>
                     <div class="margin-auto">@buyOrder.Quantity <text class="text-grey">shares at</text> $@buyOrder.Price</div>
                     <div class="mt pb"><text class="text-grey">Trade Amount:</text> $@buyOrder.TradeAmount</div>
                     <div class="text-grey">@buyOrder.DateAndTimeOfOrder.ToString("dd MMMM yyyy hh:mm:ss tt")</div>
                 </div>
             }
+            @if (Model.BuyOrderResponses.Count == 0)
+            {
+                <div class="mt text-blue">No orders</div>
+            }
         </div>
-        <!-- Sell Orders Panel -->
-        <div class="box" id="sell-orders-list">
+    </div>
+    <!-- Sell Orders Panel -->
+    <div id="sell-orders-list">
+        <div class="box">
             <h4 class="text-left text-grey">Sell Orders</h4>
-            <br>
             <!-- Sell Orders -->
             @foreach (SellOrderResponse sellOrder in Model.SellOrderResponses)
             {
-                <div class="order border-bottom pb">
+                <div class="border-bottom p">
                     <h2>@sellOrder.StockName (@sellOrder.StockSymbol)</h2>
                     <div class="margin-auto ">@sellOrder.Quantity <text class="text-grey">shares at</text> $@sellOrder.Price</div>
                     <div class="mt pb"><text class="text-grey">Trade Amount:</text> $@sellOrder.TradeAmount</div>
                     <div class="text-grey">@sellOrder.DateAndTimeOfOrder.ToString("dd MMMM yyyy hh:mm:ss tt")</div>
                 </div>
+            }
+            @if (Model.SellOrderResponses.Count == 0)
+            {
+                <div class="mt text-blue">No orders</div>
             }
         </div>
     </div>

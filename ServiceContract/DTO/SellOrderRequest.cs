@@ -18,7 +18,7 @@ public class SellOrderRequest
     [Range(1,100000,ErrorMessage = "Minimum order quantity is 1")] 
     public int Quantity{get;set;}
     
-    [Range(0,10000)]
+    [Range(1,10000)]
     public double Price{get;set;}
 
     public SellOrder toSellOrder()

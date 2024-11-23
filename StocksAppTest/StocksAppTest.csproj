@@ -10,8 +10,17 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="AutoFixture.AutoMoq" Version="5.0.0-preview0011" />
+        <PackageReference Include="AutoFixture.Xunit2" Version="5.0.0-preview0011" />
         <PackageReference Include="coverlet.collector" Version="6.0.0"/>
+        <PackageReference Include="EPPlus" Version="7.5.1" />
+        <PackageReference Include="Fizzler" Version="1.3.1" />
+        <PackageReference Include="Fizzler.Systems.HtmlAgilityPack" Version="1.2.1" />
+        <PackageReference Include="FluentAssertions" Version="7.0.0-alpha.5" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.11" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.0" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0"/>
+        <PackageReference Include="Moq" Version="4.20.72" />
         <PackageReference Include="xunit" Version="2.5.3"/>
         <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3"/>
     </ItemGroup>
@@ -21,8 +30,10 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Repository\Repository.csproj" />
       <ProjectReference Include="..\ServiceContract\ServiceContract.csproj" />
       <ProjectReference Include="..\Service\Service.csproj" />
+      <ProjectReference Include="..\StocksApp\StocksApp.csproj" />
     </ItemGroup>
 
 </Project>

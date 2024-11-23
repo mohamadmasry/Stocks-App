@@ -21,7 +21,7 @@ public class BuyOrderResponse
     [Range(0,100000)] 
     public int Quantity{get;set;}
     
-    [Range(0,10000)]
+    [Range(1,10000)]
     public double Price{get;set;}
     
     public double TradeAmount {get;set;}

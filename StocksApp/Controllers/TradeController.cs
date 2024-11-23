@@ -27,13 +27,17 @@ public class TradeController : Controller
     }
     
     
-    [Route("/")]
-    [Route("[action]")]
+    [Route("[action]/{stockSymbol?}")]
     [HttpGet]
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(String? stockSymbol)
     {
-        Dictionary<string,object>? companyProfile = _finnHubService.GetCompanyProfile(_options.Apple);
-        Dictionary<string,object>? priceQuote = _finnHubService.GetStockPriceQuote(_options.Apple);
+        string? HasMadeOrder = HttpContext.Session.GetString("HasMadeOrder");
+        if (!string.IsNullOrEmpty(HasMadeOrder) && HasMadeOrder.Equals("true") )
+        {
+            return RedirectToAction("Orders");
+        }
+        Dictionary<string,object>? companyProfile = await _finnHubService.GetCompanyProfile(stockSymbol ?? "MSFT");
+        Dictionary<string,object>? priceQuote = await _finnHubService.GetStockPriceQuote(stockSymbol ?? "MSFT");
         StocksTrade trade = new StocksTrade()
         {
             StockSymbol = Convert.ToString(companyProfile["ticker"]),
@@ -42,6 +46,7 @@ public class TradeController : Controller
         };
         ViewBag.FinnhubToken = _configuration["FinnhubToken"];
         ViewBag.DefaultOrderQuantity = _options.DefaultOrderQuantity;
+        ViewBag.CurrentUrl = "~/Trade/Index";
         return View(trade);
     }
     [HttpPost]
@@ -53,10 +58,11 @@ public class TradeController : Controller
         if (!ModelState.IsValid )
         {
             ViewBag.Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+            ViewBag.CurrentUrl = "~/Trade/Index";
             return View("~/Views/Trade/Index.cshtml",trade);
         }
         SellOrderResponse sellOrderResponse = await _stocksService.CreateSellOrder(request);
-        return RedirectToAction("Orders"); 
+        return RedirectToActionPermanent("Orders");
     }
     [HttpPost]
     [Route("[action]")] 
@@ -67,19 +73,22 @@ public class TradeController : Controller
         if (!ModelState.IsValid)
         {
             ViewBag.Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+            ViewBag.CurrentUrl = "~/Trade/Index";
             return View("~/Views/Trade/Index.cshtml", trade);
         }
         BuyOrderResponse buyOrderResponse = await _stocksService.CreateBuyOrder(request);
-        return RedirectToAction("Orders");
+        return RedirectToActionPermanent("Orders");
     }
     [Route("[action]")]
     public async Task<IActionResult> Orders()
     {
+        HttpContext.Session.SetString("HasMadeOrder", "true");
         List<SellOrderResponse> sellOrderResponses = await _stocksService.GetSellOrders();
         List<BuyOrderResponse> buyOrderResponses = await _stocksService.GetBuyOrders();
         Orders model = new Orders();
         model.SellOrderResponses = sellOrderResponses;
         model.BuyOrderResponses = buyOrderResponses;
+        ViewBag.CurrentUrl = "~/Trade/Orders";
         return View(model);
     }
     [HttpGet]
