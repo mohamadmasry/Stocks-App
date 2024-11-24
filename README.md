@@ -7,5 +7,3 @@ A web application to explore stocks, place buy/sell orders, and download order r
 - **Place Orders:** Buy or sell stocks with user-friendly forms.
 - **Order Management:** View your order history in a dedicated section.
 - **Order Reports:** Download your order history as a PDF.
-- **View Component Integration:** Enhances modularity in UI components.
-- **Repository Pattern:** Provides better separation of concerns and maintainability.
