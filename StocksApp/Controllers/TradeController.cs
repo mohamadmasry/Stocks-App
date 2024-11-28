@@ -1,11 +1,9 @@
-using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Rotativa.AspNetCore;
 using Rotativa.AspNetCore.Options;
 using ServiceContract;
 using StocksApp.Models;
-using ServiceContract;
 using ServiceContract.DTO;
 
 namespace StocksApp.Controllers;
@@ -17,9 +15,12 @@ public class TradeController : Controller
     private readonly IStocksService _stocksService;
     private readonly TradingOptions _options;
     private readonly IConfiguration _configuration;
+    private readonly ILogger<TradeController> _logger;
     
-    public TradeController(IFinnhubService finnHubService, IStocksService stocksService, IOptions<TradingOptions> options, IConfiguration configuration)
+    public TradeController(IFinnhubService finnHubService, IStocksService stocksService, IOptions<TradingOptions> options,
+        IConfiguration configuration, ILogger<TradeController> logger)
     {
+        _logger = logger;
         _finnHubService = finnHubService;
         _stocksService = stocksService;
         _options = options.Value;
@@ -34,6 +35,7 @@ public class TradeController : Controller
         string? HasMadeOrder = HttpContext.Session.GetString("HasMadeOrder");
         if (!string.IsNullOrEmpty(HasMadeOrder) && HasMadeOrder.Equals("true") )
         {
+            _logger.LogWarning("Can't make more than one order at a time.");
             return RedirectToAction("Orders");
         }
         Dictionary<string,object>? companyProfile = await _finnHubService.GetCompanyProfile(stockSymbol ?? "MSFT");
@@ -59,9 +61,10 @@ public class TradeController : Controller
         {
             ViewBag.Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
             ViewBag.CurrentUrl = "~/Trade/Index";
+            _logger.LogWarning($"ModelState is not valid: {ViewBag.Errors}");
             return View("~/Views/Trade/Index.cshtml",trade);
         }
-        SellOrderResponse sellOrderResponse = await _stocksService.CreateSellOrder(request);
+        await _stocksService.CreateSellOrder(request);
         return RedirectToActionPermanent("Orders");
     }
     [HttpPost]
@@ -74,9 +77,10 @@ public class TradeController : Controller
         {
             ViewBag.Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
             ViewBag.CurrentUrl = "~/Trade/Index";
+            _logger.LogWarning($"ModelState is not valid: {ViewBag.Errors}");
             return View("~/Views/Trade/Index.cshtml", trade);
         }
-        BuyOrderResponse buyOrderResponse = await _stocksService.CreateBuyOrder(request);
+        await _stocksService.CreateBuyOrder(request);
         return RedirectToActionPermanent("Orders");
     }
     [Route("[action]")]

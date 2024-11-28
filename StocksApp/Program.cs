@@ -3,12 +3,19 @@ using Microsoft.EntityFrameworkCore;
 using Repository;
 using RepositoryContracts;
 using Rotativa.AspNetCore;
+using Serilog;
 using Service;
 using StocksApp;
 using ServiceContract;
 using Service;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Host.UseSerilog((context, services, config) =>
+{
+    config
+        .ReadFrom.Services(services)
+        .ReadFrom.Configuration(context.Configuration);
+});
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient(); //Adding HttpClient for request sending
 builder.Services.Configure<TradingOptions>(builder.Configuration.GetSection("TradingOptions")); // Options pattern
@@ -31,6 +38,7 @@ builder.Services.AddSession(options =>
     options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout
 });
 var app = builder.Build();
+app.UseSerilogRequestLogging();
 app.UseSession();
 app.UseRotativa();
 app.UseStaticFiles();

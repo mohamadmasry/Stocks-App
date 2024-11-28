@@ -1,39 +1,41 @@
 using Entities;
 using Microsoft.EntityFrameworkCore;
 using RepositoryContracts;
+using Serilog;
 
 namespace Repository;
 
-public class StocksRepository : IStocksRepository
+public class StocksRepository(StockMarketDbContext context, IDiagnosticContext diagnosticContext)
+    : IStocksRepository
 {
-    private readonly StockMarketDbContext _context;
-
-    public StocksRepository(StockMarketDbContext context)
-    {
-        _context = context;
-    }
-    
     public async Task<BuyOrder> CreateBuyOrder(BuyOrder buyOrder)
     {
-        await _context.BuyOrders.AddAsync(buyOrder);
-        await _context.SaveChangesAsync();
+        await context.BuyOrders.AddAsync(buyOrder);
+        await context.SaveChangesAsync();
+        diagnosticContext.Set("Created buy order", buyOrder);
         return buyOrder;
     }
 
     public async Task<SellOrder> CreateSellOrder(SellOrder sellOrder)
     {
-        await _context.SellOrders.AddAsync(sellOrder);
-        await _context.SaveChangesAsync();
+        await context.SellOrders.AddAsync(sellOrder);
+        await context.SaveChangesAsync();
+        diagnosticContext.Set("Created sell order", sellOrder);
         return sellOrder;
     }
 
     public async Task<List<BuyOrder>> GetBuyOrders()
     {
-        return await _context.BuyOrders.ToListAsync();
+        List<BuyOrder> result = await context.BuyOrders.ToListAsync();
+        diagnosticContext.Set("Buy orders list",result);
+        return result;
+
     }
 
     public async Task<List<SellOrder>> GetSellOrders()
     {
-        return await _context.SellOrders.ToListAsync();
+        List<SellOrder> result =  await context.SellOrders.ToListAsync();
+        diagnosticContext.Set("Sell orders list",result);
+        return result;
     }
 }

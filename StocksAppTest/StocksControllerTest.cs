@@ -2,10 +2,12 @@ using AutoFixture;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using Repository;
 using RepositoryContracts;
+using Serilog;
 using Service;
 using ServiceContract;
 using StocksApp;
@@ -19,8 +21,10 @@ public class StocksControllerTest
     private readonly IFinnhubService _finnhubService;
     private readonly Mock<IFinnhubService> _finnhubServiceMock;
     private readonly Mock<IOptions<TradingOptions>> _options;
+    private readonly Mock<IDiagnosticContext> _diagnosticMock;
     public StocksControllerTest()
     {
+        _diagnosticMock = new Mock<IDiagnosticContext>();
         _options = new Mock<IOptions<TradingOptions>>();
         var tradingOptions = new TradingOptions
         {
@@ -39,7 +43,7 @@ public class StocksControllerTest
         string symbol = null;
         _finnhubServiceMock.Setup(temp =>
             temp.GetStocks()).ReturnsAsync(new List<Dictionary<string, string>>());
-        StocksController controller = new StocksController(_finnhubService, _options.Object);
+        StocksController controller = new StocksController(_finnhubService, _options.Object,_diagnosticMock.Object);
         //Act
         IActionResult result = await controller.Explore(symbol);
         //Assert
@@ -59,7 +63,7 @@ public class StocksControllerTest
             temp.GetCompanyProfile(It.IsAny<string>())).ReturnsAsync(new Dictionary<string, object>(){{"logo", "www.google.con"}} );
         _finnhubServiceMock.Setup(temp=>
             temp.GetStockPriceQuote(It.IsAny<string>())).ReturnsAsync(new Dictionary<string, object>());
-        StocksController controller = new StocksController(_finnhubService, _options.Object);
+        StocksController controller = new StocksController(_finnhubService, _options.Object,_diagnosticMock.Object);
         //Act
         IActionResult result = await controller.Explore(symbol);
         //Assert

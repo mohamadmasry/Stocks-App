@@ -22,4 +22,9 @@ public class BuyOrder
     [Range(0,10000)]
     public double Price{get;set;}
 
+    public override string ToString()
+    {
+        return "Stock Symbol: " + StockSymbol + " Stock Name: " + StockName + " Date: " + DateAndTimeOfOrder +
+               " Quantity: " + Quantity + " Price: " + Price;
+    }
 }

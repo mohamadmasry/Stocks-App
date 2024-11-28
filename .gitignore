@@ -2,9 +2,10 @@
 **/bin/ 
 **/obj/ 
 
-# Rider IDE metadata 
+# Rider IDE-specific metadata metadata 
 .idea/
 out/
+*.DotSettings.user
 
 #macOS system files
 .DS_Store

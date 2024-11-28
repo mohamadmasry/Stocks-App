@@ -4,6 +4,7 @@ using Entities;
 using FluentAssertions;
 using Microsoft.AspNetCore.Routing.Template;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Moq;
 using RepositoryContracts;
 using Service;
@@ -21,8 +22,9 @@ public class IStocksServiceTest
     public IStocksServiceTest()
     {
         _repositoryMock = new Mock<IStocksRepository>();
+        var loggerMock = new Mock<ILogger<StocksService>>();
         _repository = _repositoryMock.Object;
-        _service = new StocksService(_repository);
+        _service = new StocksService(_repository,loggerMock.Object);
         _fixture = new Fixture();
     }
 
